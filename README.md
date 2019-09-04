@@ -35,11 +35,12 @@ password       pass
 account default : gmail
 ```
 
-**Note:** You may have to enable insecure apps on Google
 Test whether the root user can send an email using the mailx command:
 ```
 echo "This is the email body" > /tmp/body.txt && sudo mailx -s "This is the subject" <YOUR_EMAIL>@gmail.com < /tmp/body.txt; rm /tmp/body.txt
 ```
+
+**Note:** You may have to enable insecure apps on Google for this to work
 
 ## Unattended Upgrades
 Edit unattended-upgrade settings to send emails following updates:
