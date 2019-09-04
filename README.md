@@ -4,7 +4,7 @@ This document will outline the steps taken to setup msmtp on a Raspberry Pi Zero
 ## Mail Setup
 Install required packages:
 ```
-sudo apt-get install msmtp msmtp-mta bsd-mailx update-notifier-common
+sudo apt-get install msmtp msmtp-mta bsd-mailx apt-config-auto-update
 ```
 
 Create an msmtp config file with the following settings:
@@ -49,23 +49,34 @@ sudo nano /etc/apt/apt.conf.d/50unattended-upgrades
 
 The following two lines should be the only uncommented lines in the `Origins-Pattern` section:
 ```
+"origin=Debian,codename=${distro_codename}-updates";
+"origin=Debian,codename=${distro_codename},label=Debian";
+"origin=Debian,codename=${distro_codename},label=Debian-Security";
 "origin=Raspbian,codename=${distro_codename},label=Raspbian";
 "origin=Raspberry Pi Foundation,codename=${distro_codename},label=Raspberry Pi Foundation";
+"origin=Syncthing,codename=debian,label=Syncthing";
 ```
 
 Edit the mail settings as follows:
 ```
 Unattended-Upgrade::Mail "<YOUR_EMAIL>@gmail.com";
 Unattended-Upgrade::MailOnlyOnError "false";
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+Unattended-Upgrade::Remove-New-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Automatic-Reboot "true";
 Unattended-Upgrade::Automatic-Reboot-WithUsers "true";
 Unattended-Upgrade::Automatic-Reboot-Time "05:00";
 ```
-**Note:** The package `update-notifier-common` must be installed for automatic reboots to take place.
+**Note:** The package `apt-config-auto-update` must be installed for automatic reboots to take place.
+
+When testing unattended-upgrades with email output, use the following command:
+```
+sudo unattended-upgrade -d
+```
 
 ## Logwatch
-Ensure that the `logwatch.conf` file has been copied from the isntall directory `/usr/share/logwatch/default.conf` to `/etc/logwatch/conf`:
+Ensure that the `logwatch.conf` file has been copied from the install directory `/usr/share/logwatch/default.conf` to `/etc/logwatch/conf`:
 ```
 sudo cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
 ```
@@ -78,11 +89,15 @@ sudo nano /etc/logwatch/conf/logwatch.conf
 ```
 Format = html
 MailTo = <YOUR_EMAIL>@gmail.com
-Detail = High
 Detail = Med
 mailer = "/usr/bin/msmtp -t"
 ```
 **Note:** The most important line is the `mailer` line. No emails will be sent out if the line is not modified.
+
+Run the following command to create a temp directory for logwatch:
+```
+sudo mkdir /var/cache/logwatch
+```
 
 When testing logwatch with email output, use the following command:
 ```
