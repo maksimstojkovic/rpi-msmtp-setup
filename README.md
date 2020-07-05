@@ -101,7 +101,7 @@ sudo mkdir /var/cache/logwatch
 
 When testing logwatch with email output, use the following command:
 ```
-sudo logwatch --output mail
+sudo logwatch --range today
 ```
 
 ## Useful Links
