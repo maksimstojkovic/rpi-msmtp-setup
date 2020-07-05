@@ -14,7 +14,6 @@ sudo nano /etc/msmtprc
 
 ```
 # Set default values for all following accounts.
-# Set default values for all following accounts.
 defaults
 auth           on
 tls            on
