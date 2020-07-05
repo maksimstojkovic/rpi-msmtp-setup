@@ -19,7 +19,7 @@ auth           on
 tls            on
 tls_starttls   on
 tls_trust_file /etc/ssl/certs/ca-certificates.crt
-logfile        /tmp/msmtp.log
+logfile        /var/log/msmtp
 
 # Gmail
 account        gmail
