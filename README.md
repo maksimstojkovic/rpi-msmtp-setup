@@ -1,6 +1,10 @@
 # MSMTP Mail Client Docs
 This document will outline the steps taken to setup msmtp on a Raspberry Pi Zero W for use with services such as Unattended Upgrades and Logwatch.
 
+## Disclaimer
+
+This README provide a general outline of the process for setting up these functions, however it has been a considerable amount of time since this document has been tested or reviewed. Please use this as a guide only, and seek further clarification via web search and forums (e.g. Stack Overflow) if necessary.
+
 ## Mail Setup
 Install required packages:
 ```
@@ -47,14 +51,13 @@ Edit unattended-upgrade settings to send emails following updates:
 sudo nano /etc/apt/apt.conf.d/50unattended-upgrades
 ```
 
-The following two lines should be the only uncommented lines in the `Origins-Pattern` section:
+The following four lines should be the only uncommented lines in the `Origins-Pattern` section (you may have to add the last 2 lines):
+
 ```
-"origin=Debian,codename=${distro_codename}-updates";
 "origin=Debian,codename=${distro_codename},label=Debian";
 "origin=Debian,codename=${distro_codename},label=Debian-Security";
 "origin=Raspbian,codename=${distro_codename},label=Raspbian";
 "origin=Raspberry Pi Foundation,codename=${distro_codename},label=Raspberry Pi Foundation";
-"origin=Syncthing,codename=debian,label=Syncthing";
 ```
 
 Edit the mail settings as follows:
